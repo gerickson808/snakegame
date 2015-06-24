@@ -4,7 +4,7 @@ var direction = "right";
 var bodyArray = [601];
 var foodLocation = Math.floor((Math.random() * 900) + 1);
 var score = 0;
-var timer = setInterval(runGame,100);
+var timer = setInterval(runGame,75);
 $(document).ready(function(){
 	$("#lose").hide()
 	populatePixels();
@@ -66,15 +66,27 @@ function moveSnake(){
 	switch(direction){
 		case "left":
 			num -= 1;
+			if (num%30==0){
+				num+=30;
+			}
 			break;
 		case "right":
 			num += 1;
+			if (num%30==1){
+				num-=30;
+			}
 			break;
 		case "up":
 			num -= 30;
+			if (num<1){
+				num+=900;
+			}
 			break;
 		case "down":
 			num += 30;
+			if (num>900){
+				num-=900;
+			}
 			break;
 	}
 	bodyArray.push(num);
@@ -102,7 +114,7 @@ function stopTimer(timer){
 
 function checkIfDead(){
 	var dead = false;
-	if (num%30 == 0 && prevNum%30 == 1){
+	/*if (num%30 == 0 && prevNum%30 == 1){
 		dead = true;
 		$(".pixel:nth-child("+num+")").removeClass("head");
 	}
@@ -114,7 +126,7 @@ function checkIfDead(){
 		dead = true;
 		$(".pixel:nth-child("+num+")").removeClass("head");
 	}
-	else if ($(".pixel:nth-child("+num+")").hasClass("body")){
+	else */if ($(".pixel:nth-child("+num+")").hasClass("body")){
 		dead = true;
 		$(".pixel:nth-child("+num+")").removeClass("body");
 	}
@@ -157,7 +169,7 @@ function newGame(){
 	populatePixels();
 	startGame();
 	eatsFood();
-	timer = setInterval(runGame,100);
+	timer = setInterval(runGame,75);
 	$('#stop').click(function(){
 		stopTimer(timer);
 	})
